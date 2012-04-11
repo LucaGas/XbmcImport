@@ -3,8 +3,9 @@
 
 
 
-import os,re,sys,pyinotify,stat,time,atexit
+import os,re,sys,pyinotify,stat,time,atexit,json,httplib, urllib
 from signal import SIGTERM
+from config.py import credentials
 
 class Daemon:
         """
@@ -262,7 +263,15 @@ class EventHandler(pyinotify.ProcessEvent):
                     self.move(file,os.path.join(root,file))
 
         
-
+class XbmcJson:
+    def __init__(self):
+        self.url = 'http://'+credentials['username']+':'+credentials['password']+'@'+credentials['address']
+        self.jsonrpcurl = url + '/jsonrpc'
+        
+    def update(self):
+        self.updatestr = json.dumps({'jsonrpc': "2.0", 'method': "VideoLibrary.Scan", 'id': "1"})
+        urllib.urlopen(self.jsonrpcurl, self.updatestr).close()
+        
 
 if __name__ == "__main__":
 
