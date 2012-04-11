@@ -266,7 +266,7 @@ class EventHandler(pyinotify.ProcessEvent):
 
 if __name__ == "__main__":
 
-    daemon = Daemon('/home/gas/xbmcimport.pid')
+    daemon = Daemon(os.path.expanduser('~/.xbmcimport.pid'))
     
     def print_usage():
         print "usage: %s start|restart source destination" % sys.argv[0]
